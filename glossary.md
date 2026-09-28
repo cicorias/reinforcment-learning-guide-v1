@@ -1,0 +1,33 @@
+# Glossary
+
+- **Action-value $q_\pi(s,a)$** — expected return after taking $a$ in $s$, then following $\pi$.
+- **Basic feasible solution (BFS)** — a vertex of the LP polyhedron; $n$ tight, linearly independent constraints.
+- **Behaviour / target policy** — the policy that generates data / the policy being learned.
+- **Bellman operator $T^\pi$, $T^*$** — maps $v$ to a one-step lookahead (average / max); both are γ-contractions.
+- **Bland's rule** — lowest-index pivoting rule that prevents simplex cycling.
+- **Bootstrapping** — updating an estimate from other estimates (DP, TD).
+- **Branch and bound** — ILP search using LP bounds to prune subtrees.
+- **Certainty equivalence** — acting/evaluating as if the maximum-likelihood model were true (what batch TD computes).
+- **Contraction** — a map that shrinks distances by a factor γ < 1.
+- **Deadly triad** — function approximation + bootstrapping + off-policy ⇒ risk of divergence.
+- **Derandomisation** — converting a randomised algorithm into a deterministic one (e.g. conditional expectations).
+- **ε-greedy / ε-soft** — random w.p. ε, else greedy / every action has probability ≥ ε/|A|.
+- **Experience replay** — buffer of past transitions sampled for training.
+- **FPTAS / PTAS** — approximation schemes polynomial in $(n, 1/\varepsilon)$ / in $n$ for fixed ε.
+- **GLIE** — greedy in the limit with infinite exploration.
+- **GPI** — generalised policy iteration: interleaved evaluation and improvement.
+- **Importance-sampling ratio** — $\prod\pi/b$; reweights off-policy returns.
+- **Incumbent** — best integral feasible solution found so far in B&B.
+- **Integrality gap** — worst-case ratio between ILP and LP optima.
+- **Markov property** — the future is independent of the past given the present state.
+- **Maximisation bias** — overestimation from maximising over noisy estimates.
+- **Minimum ratio test** — simplex rule choosing the leaving variable; preserves feasibility.
+- **Occupancy measure** — discounted visitation frequency $d(s,a)$; the dual LP variables.
+- **Policy improvement theorem** — acting greedily w.r.t. $q_\pi$ never makes things worse.
+- **Reduced cost** — rate of objective change when a nonbasic variable enters.
+- **Regret** — cumulative gap to the optimal arm or policy.
+- **Robbins–Monro conditions** — $\sum\alpha_t = \infty$, $\sum\alpha_t^2 < \infty$.
+- **Slack variable** — non-negative variable turning ≤ into =.
+- **TD error δ** — $R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$.
+- **Target network** — lagged copy of the Q-network used to compute targets.
+- **UCB** — optimism-in-the-face-of-uncertainty action selection.

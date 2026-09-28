@@ -1,0 +1,42 @@
+[project]
+name = "rlguide"
+version = "0.1.0"
+description = "Reference implementations for the RL / DP / LP / approximation-algorithms learning guide"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+notebooks = [
+    "jupyterlab>=4.2",
+    "ipywidgets>=8.1",
+    "matplotlib>=3.8",
+    "nbmake>=1.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.11,<0.13"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "NPY"]
+ignore = ["E741"]  # single-letter names like `l` are fine in math code
+
+[tool.ruff.lint.per-file-ignores]
+# notebook cell sources are long string literals
+"scripts/build_notebooks.py" = ["E501"]

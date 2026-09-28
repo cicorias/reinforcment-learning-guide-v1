@@ -1,0 +1,72 @@
+# mise manages the toolchain (Python + uv) and all project tasks.
+# First run:  mise trust && mise install && mise run setup
+min_version = "2025.1.0"
+
+[tools]
+python = "3.12"
+uv = "latest"
+
+[settings]
+# Let mise create/activate the uv-managed .venv automatically when you cd here.
+python.uv_venv_auto = "create|source"
+
+[env]
+# mise is the single source of truth for the Python interpreter:
+# uv must use the mise-installed Python and never download its own.
+UV_PYTHON_DOWNLOADS = "never"
+
+# ---------------------------------------------------------------- setup
+[tasks.setup]
+description = "Create .venv and install all dependency groups with uv"
+run = "uv sync --all-groups"
+
+[tasks."setup:min"]
+description = "Install only runtime + dev deps (fast; no Jupyter)"
+run = "uv sync --group dev"
+
+# ---------------------------------------------------------------- quality
+[tasks.test]
+description = "Run the test suite (every worked example in the guide is asserted here)"
+run = "uv run pytest"
+
+[tasks."test:examples"]
+description = "Run only the worked-example checks"
+run = "uv run pytest tests/test_worked_examples.py -v"
+
+[tasks.lint]
+description = "Lint with ruff"
+run = "uv run ruff check src tests scripts"
+
+[tasks.fmt]
+description = "Format with ruff"
+run = ["uv run ruff format src tests scripts", "uv run ruff check --fix src tests scripts"]
+
+[tasks.check]
+description = "Everything CI runs: lint + tests + notebook freshness"
+depends = ["lint", "test", "notebooks:check"]
+
+# ---------------------------------------------------------------- notebooks
+[tasks."notebooks:build"]
+description = "Regenerate notebooks/*.ipynb from scripts/build_notebooks.py (never hand-edit .ipynb)"
+run = "uv run python scripts/build_notebooks.py"
+
+[tasks."notebooks:check"]
+description = "Fail if committed notebooks are stale vs. the generator"
+run = "uv run python scripts/build_notebooks.py --check"
+
+[tasks."notebooks:run"]
+description = "Execute every notebook top-to-bottom (smoke test)"
+run = "uv run pytest --nbmake notebooks"
+
+[tasks.lab]
+description = "Open JupyterLab on the notebooks folder"
+run = "uv run jupyter lab notebooks"
+
+# ---------------------------------------------------------------- demos
+[tasks."demo:cliff"]
+description = "SARSA vs Q-learning vs Expected SARSA on Cliff Walking"
+run = "uv run python -m rlguide.td_control"
+
+[tasks."demo:examples"]
+description = "Print every worked example from the guide with its computed value"
+run = "uv run python scripts/print_worked_examples.py"
